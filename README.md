@@ -10,7 +10,7 @@ An automatic1111 webui extension to save your image generations on other locatio
 
 ## Usage
 Just specify in the `Backup folders` the additional paths to save the images to.  
-You can ask for multiple paths at once by separating them with a `|`.  
+You can ask for multiple paths at once by separating them with a pipe (`|`).  
 For example, if I want to save the images on 2 different drives, `D` and `F`, I can write this in the textbox:  
 `D:\my\stable diffusion\backup\folder | F:\my other\stable diffusion\backup\folder`  
 
