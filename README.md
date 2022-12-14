@@ -14,5 +14,5 @@ You can ask for multiple paths at once by separating them with a pipe (`|`).
 For example, if I want to save the images on 2 different drives, `D` and `F`, I can write this in the textbox:  
 `D:\my\stable diffusion\backup\folder | F:\my other\stable diffusion\backup\folder`  
 
-If you don't write any path, it won't save additional images at all.  
+If you don't write any paths, it won't save additional images at all.  
 This extension does not override the default behaviour of the webui. If you have the `Always save all generated images` checkbox checked in the webui settings, you will still be saving them on your hard-drive at the specified path in the settings.
