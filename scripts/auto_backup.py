@@ -14,7 +14,8 @@ config_path = os.path.join(base_dir, 'user-config.cfg')
 
 
 def make_missing_directory_and_parent(destination_directory):
-    if not os.path.exists(destination_directory):
+    parent_directory = os.path.dirname(destination_directory)
+    if not os.path.exists(parent_directory):
         parent_directory = os.path.dirname(destination_directory)
         os.mkdir(parent_directory)
     os.mkdir(destination_directory)
