@@ -27,7 +27,7 @@ def save_images_to_directory(images, backup_directory):
         if not os.path.exists(destination_directory):
             make_missing_directory_and_parent(destination_directory)
         image.save(full_destination)
-        print('saved "\033[94m' + os.path.basename(full_destination) + '\033[0m" to "\033[94m' + os.path.dirname(full_destination) + '\033[0m"')
+        print('[sd-webui-backup] saved "\033[94m' + os.path.basename(full_destination) + '\033[0m" to "\033[94m' + os.path.dirname(full_destination) + '\033[0m"')
 
 
 class AutoBackupScript(scripts.Script):
@@ -40,18 +40,25 @@ class AutoBackupScript(scripts.Script):
         return "Auto-backup"
 
     def ui(self, is_img2img):
-        backup_folder_textbox = gr.Textbox(value=lambda: self.initial_sd_backup_paths, label='Backup folders', interactive=True)
-        return [backup_folder_textbox]
+        elem_id_tabname = ("img2img" if is_img2img else "txt2img") + "_backup"
+        with gr.Group(elem_id=elem_id_tabname):
+            with gr.Accordion(f"AutoBackup", open=False, elem_id="sd-webui-backup"):
+                is_enabled = gr.Checkbox(label='Enable', value=True)
+                backup_folder_textbox = gr.Textbox(value=lambda: self.initial_sd_backup_paths, label='Backup folders', interactive=True)
+        return [backup_folder_textbox, is_enabled]
 
     def show(self, is_img2img):
         return scripts.AlwaysVisible
 
-    def postprocess(self, p, res, *args):
+    def postprocess(self, p, res, backup_folder_textbox, is_enabled):
+        if not is_enabled:
+            return
+
         with open(config_path, 'w') as config_file:
-            self.config['PATHS']['backup_paths'] = args[0]
+            self.config['PATHS']['backup_paths'] = backup_folder_textbox
             self.config.write(config_file)
 
-        save_paths = args[0].split('|')
+        save_paths = backup_folder_textbox.split('|')
         if opts.samples_save and not p.do_not_save_samples:
             for save_path in save_paths:
                 save_path = save_path.strip()
